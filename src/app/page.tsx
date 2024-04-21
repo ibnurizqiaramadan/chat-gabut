@@ -1,9 +1,11 @@
-// import Image from 'next/image';
+import ChatContainer from '@/components/chat/chatContainer';
+import ChatInput from '@/components/chat/chatInput';
 
 export default function Home() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div className="maincontent flex flex-col">
+      <ChatContainer />
+      <ChatInput />
+    </div>
   );
 }
