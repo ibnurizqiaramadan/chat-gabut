@@ -4,6 +4,7 @@ import './globals.css';
 import React from 'react';
 import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
+import { Providers } from './providers';
 
 const inter = Inter({ subsets: [ 'latin' ] });
 
@@ -20,11 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
-          <Navbar />
-          <Sidebar />
-          {children}
-        </main>
+        <Providers>
+          <main>
+            <Navbar />
+            <Sidebar />
+            {children}
+          </main>
+        </Providers>
       </body>
     </html>
   );
