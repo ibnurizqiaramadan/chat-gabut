@@ -1,7 +1,7 @@
 'use client';
 
 import { Chats, Chat } from '@/helpers/types';
-import BubbleChat from './bubbleChat';
+import ChatBubble from './chatBubble';
 import { useEffect, useRef } from 'react';
 
 export default function ChatContainer(props: {
@@ -27,7 +27,7 @@ export default function ChatContainer(props: {
       className="p-4 chat-container overflow-auto"
     >
       <div className="flex flex-col gap-3">
-        {props.data.map((data: Chat) => <BubbleChat
+        {props.data.map((data: Chat) => <ChatBubble
           key={data.uuid}
           uuid={data.uuid}
           text={data.text}
