@@ -10,4 +10,5 @@ export type Chats = Chat[]
 export type ChatStore = {
   chats: Chats
   addChat: (newChat: Chat) => void
+  clearChats: () => void
 }
