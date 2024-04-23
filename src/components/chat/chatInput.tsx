@@ -1,3 +1,5 @@
+'use client';
+
 export default function ChatInput() {
   return (
     <div className="chat-input h-full flex gap-3">

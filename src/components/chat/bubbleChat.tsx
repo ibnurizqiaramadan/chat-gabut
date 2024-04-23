@@ -1,3 +1,5 @@
+'use client';
+
 import { Chat } from '@/helpers/types';
 
 export default function BubbleChat(props: Chat) {
