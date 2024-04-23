@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Chat, ChatStore, Chats } from '@/helpers/types';
+import { Chat, ChatStore } from '@/helpers/types';
 
 export const chatStore = create<ChatStore>((set) => ({
   chats: [ {
@@ -13,6 +13,6 @@ export const chatStore = create<ChatStore>((set) => ({
     text: 'How are you?',
     sender: false,
     timestamp: 123123,
-  } ] as Chats,
+  } ],
   addChat: (newChat: Chat) => set((state) => ({ chats: [ ...state.chats, newChat ] })),
 }));
