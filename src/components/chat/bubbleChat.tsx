@@ -1,8 +1,6 @@
-export default function BubbleChat(props: {
-  text: String
-  timestamp: number
-  sender?: Boolean
-}) {
+import { Chat } from '@/helpers/types';
+
+export default function BubbleChat(props: Chat) {
   return (
     <div className={`flex flex-col ${props.sender ? 'items-end justify-end' : 'items-start justify-start'}`}>
       <span className={`text-xs mb-1`}>
