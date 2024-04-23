@@ -2,12 +2,30 @@
 
 import { Chats, Chat } from '@/helpers/types';
 import BubbleChat from './bubbleChat';
+import { useEffect, useRef } from 'react';
 
 export default function ChatContainer(props: {
   data: Chats;
 }) {
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const chatContainer = chatContainerRef.current;
+    if (chatContainer) {
+      const currentScrollPosition = (chatContainer.scrollTop + chatContainer.clientHeight) + 80;
+      const maxScrollPosition = chatContainer.scrollHeight;
+
+      if (currentScrollPosition >= maxScrollPosition) {
+        chatContainer.scrollTop = maxScrollPosition;
+      }
+    }
+  }, [ props.data ]);
+
   return (
-    <div className="p-4 chat-container overflow-auto">
+    <div
+      ref={chatContainerRef}
+      className="p-4 chat-container overflow-auto"
+    >
       <div className="flex flex-col gap-3">
         {props.data.map((data: Chat) => <BubbleChat
           key={data.uuid}
