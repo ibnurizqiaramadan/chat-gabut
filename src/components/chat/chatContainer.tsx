@@ -10,6 +10,8 @@ export default function ChatContainer(props: {
         {props.data.map((data: Chat) => (
           <>
             <BubbleChat
+              key={data.uuid}
+              uuid={data.uuid}
               text={data.text}
               sender={data.sender}
               timestamp={data.timestamp}
