@@ -12,10 +12,10 @@ export default function ChatContainer(props: {
   useEffect(() => {
     const chatContainer = chatContainerRef.current;
     if (chatContainer) {
-      const currentScrollPosition = (chatContainer.scrollTop + chatContainer.clientHeight) + 80;
+      const currentScrollPosition = (chatContainer.scrollTop + chatContainer.clientHeight);
       const maxScrollPosition = chatContainer.scrollHeight;
 
-      if (currentScrollPosition >= maxScrollPosition) {
+      if (currentScrollPosition <= maxScrollPosition) {
         chatContainer.scrollTop = maxScrollPosition;
       }
     }
