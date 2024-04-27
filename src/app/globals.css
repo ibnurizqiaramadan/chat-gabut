@@ -41,6 +41,14 @@ main {
   border-bottom: 1px solid #444;
 }
 
+.sidenav {
+  height: var(--navbar-height) !important;
+}
+
+.sidecontent {
+  height: calc(100vh - var(--navbar-height) - 2px) !important;
+}
+
 .maincontent {
   width: 100%;
   height: calc(100vh - var(--navbar-height));
