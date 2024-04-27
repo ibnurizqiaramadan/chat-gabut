@@ -1,7 +1,15 @@
+import ChatList from '@/components/chat/chatList';
+
 export default function Sidebar() {
   return (
-    <aside className="sidebar bg-white text-black p-5" aria-label="Sidebar">
-      <p className="text-2xl font-bold">Chats</p>
+    <aside className="sidebar bg-white text-black" aria-label="Sidebar">
+      <div className='p-5 sidenav'>
+        <p className="text-2xl font-bold">Chats</p>
+      </div>
+      <hr className=""/>
+      <div className='sidecontent overflow-auto'>
+        <ChatList />
+      </div>
     </aside>
   );
 }
