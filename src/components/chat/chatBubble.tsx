@@ -3,13 +3,22 @@
 import { Chat } from '@/helpers/types';
 
 export default function BubbleChat(props: Chat) {
+  const parseText = (text: string) => {
+    let result = '';
+    result = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    result = result.replace(/( +)/g, (match) => {
+      return match.split('').map(() => '&nbsp;').join('');
+    });
+    return result;
+  };
+
   return (
     <div className={`flex flex-col ${props.sender ? 'items-end justify-end' : 'items-start justify-start'}`}>
       <span className={`text-xs mb-1`}>
-        {new Date(props.timestamp).toISOString()}
+        {new Date(props.timestamp as number).toISOString()}
       </span>
-      <div className="bg-gray-600 text-white p-3 rounded-xl max-w-md">
-        {props.text}
+      <div className="bg-gray-600 text-white p-3 rounded-xl">
+        <span dangerouslySetInnerHTML={{ __html: parseText(props.text) }} />
       </div>
     </div>
   );
