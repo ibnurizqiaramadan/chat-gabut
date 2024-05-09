@@ -13,7 +13,7 @@ export default function BubbleChat(props: Chat) {
   };
 
   return (
-    <div className={`flex flex-col ${props.sender ? 'items-end justify-end' : 'items-start justify-start'}`}>
+    <div className={`flex flex-col ${props.sender ? 'items-end justify-end' : 'items-start justify-start'} ${props.isPending ? 'opacity-50' : ''}`}>
       <span className={`text-xs mb-1`}>
         {new Date(props.timestamp as number).toISOString()}
       </span>

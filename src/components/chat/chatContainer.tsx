@@ -28,6 +28,8 @@ export default function ChatContainer(props: {
     >
       <div className="flex flex-col gap-3">
         {props.data.map((data: Chat) => <ChatBubble
+          isPending={data.isPending}
+          isRead={data.isRead}
           target={data.target}
           key={data.id}
           id={data.id}
