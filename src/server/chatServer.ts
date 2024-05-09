@@ -7,13 +7,11 @@ import { escapeHtml, createID } from '@/helpers/funtions';
 
 export const sendChat = (chatData: ChatInputType): Promise<Chat> => {
   return new Promise((resolve) => {
-    const id = createID();
-
     const data: Chat = {
-      id: id,
+      id: chatData.id,
       text: escapeHtml(chatData.text),
-      sender: id,
-      target: id,
+      sender: chatData.sender,
+      target: chatData.target,
       timestamp: Date.now(),
     };
 
