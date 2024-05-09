@@ -1,8 +1,17 @@
 export type Chat = {
-  uuid: string
+  id: string
   text: string
-  sender: boolean
-  timestamp: number
+  sender: string
+  target: string
+  timestamp?: number
+  isRead?: boolean
+  isPending?: boolean
+}
+
+export type ChatInputType = {
+  text: string
+  sender: string
+  target: string
 }
 
 export type Chats = Chat[]
