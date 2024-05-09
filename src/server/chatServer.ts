@@ -1,14 +1,33 @@
-import { Chat, User } from '@/helpers/types';
-import { v4 as uuid } from 'uuid';
+'use server';
 
-export const sendChat = (): Promise<Chat> => {
+import { ChatInputType, Chat, User } from '@/helpers/types';
+import db from '@/helpers/mongodb';
+import ChatModel from '@/models/chatModel';
+import { escapeHtml, createID } from '@/helpers/funtions';
+
+export const sendChat = (chatData: ChatInputType): Promise<Chat> => {
   return new Promise((resolve) => {
-    resolve({
-      uuid: uuid(),
-      text: `Hello ${Math.random()} ${uuid()}`,
-      sender: Number((Math.random() * 100).toFixed(0)) % 2 === 0 ? true : false,
+    const id = createID();
+
+    const data: Chat = {
+      id: id,
+      text: escapeHtml(chatData.text),
+      sender: id,
+      target: id,
       timestamp: Date.now(),
-    });
+    };
+
+    const insertChat = async () => {
+      try {
+        await db();
+        const chat = new ChatModel(data);
+        await chat.save();
+      } catch (err) {
+        console.log(err);
+      }
+      resolve(data);
+    };
+    insertChat();
   });
 };
 
@@ -16,10 +35,10 @@ export const createNewChat = (): Promise<User> => {
   return new Promise((resolve) => {
     resolve({
       avatar: 'https://flowbite.com/docs/images/logo.svg',
-      name: uuid(),
-      uuid: uuid(),
+      name: createID(),
+      uuid: createID(),
       isOnline: true,
-      username: uuid(),
+      username: createID(),
     });
   });
 };
