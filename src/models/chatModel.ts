@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from 'mongoose';
 import { Chat } from '@/helpers/types';
 
 const chatsData = new Schema<Chat>({
-  uuid: {
+  id: {
     type: String,
     unique: true,
     required: true,
