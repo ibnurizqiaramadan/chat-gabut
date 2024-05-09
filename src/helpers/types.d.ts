@@ -9,6 +9,7 @@ export type Chat = {
 }
 
 export type ChatInputType = {
+  id: string
   text: string
   sender: string
   target: string
@@ -20,6 +21,7 @@ export type ChatStore = {
   chats: Chats
   addChat: (newChat: Chat) => void
   clearChats: () => void
+  changePending: (id: string) => void
 }
 
 export type User = {
