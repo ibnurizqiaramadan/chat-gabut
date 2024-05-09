@@ -28,8 +28,9 @@ export default function ChatContainer(props: {
     >
       <div className="flex flex-col gap-3">
         {props.data.map((data: Chat) => <ChatBubble
-          key={data.uuid}
-          uuid={data.uuid}
+          target={data.target}
+          key={data.id}
+          id={data.id}
           text={data.text}
           sender={data.sender}
           timestamp={data.timestamp}
