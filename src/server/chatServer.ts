@@ -34,7 +34,7 @@ export const createNewChat = (): Promise<User> => {
     resolve({
       avatar: 'https://flowbite.com/docs/images/logo.svg',
       name: createID(),
-      uuid: createID(),
+      id: createID(),
       isOnline: true,
       username: createID(),
     });
