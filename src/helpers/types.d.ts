@@ -21,7 +21,7 @@ export type ChatStore = {
   chats: Chats
   addChat: (newChat: Chat) => void
   clearChats: () => void
-  changePending: (id: string) => void
+  changePending: (chatData: Chat) => void
 }
 
 export type User = {

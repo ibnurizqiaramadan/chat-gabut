@@ -5,7 +5,7 @@ export const chatStore = create<ChatStore>((set) => ({
   chats: [ ],
   addChat: (newChat: Chat) => set((state) => ({ chats: [ ...state.chats, newChat ] })),
   clearChats: () => set(() => ({ chats: [] })),
-  changePending: (id: string) => set((state) => ({
-    chats: state.chats.map((chat) => (chat.id === id ? { ...chat, isPending: !chat.isPending } : chat)),
+  changePending: (chatData: Chat) => set((state) => ({
+    chats: state.chats.map((chat) => (chat.id === chatData.id ? { ...chat, isPending: false, timestamp: chatData.timestamp } : chat)),
   })),
 }));
