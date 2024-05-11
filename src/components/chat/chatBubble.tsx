@@ -1,14 +1,18 @@
 'use client';
 
 import { Chat } from '@/helpers/types';
+import { escapeHtml } from '@/helpers/funtions';
 
 export default function BubbleChat(props: Chat) {
   const parseText = (text: string) => {
     let result = '';
-    result = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-    result = result.replace(/( +)/g, (match) => {
-      return match.split('').map(() => '&nbsp;').join('');
-    });
+
+    result = escapeHtml(text)
+        .replace(/(?:\r\n|\r|\n)/g, '<br>')
+        .replace(/( +)/g, (match) => {
+          return match.split('').map(() => '&nbsp;').join('');
+        });
+
     return result;
   };
 
