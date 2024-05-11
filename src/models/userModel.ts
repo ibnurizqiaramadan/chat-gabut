@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from 'mongoose';
 import { User } from '@/helpers/types';
 
 const usersData = new Schema<User>({
-  uuid: {
+  id: {
     type: String,
     unique: true,
     required: true,
