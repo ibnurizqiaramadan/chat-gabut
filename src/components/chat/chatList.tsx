@@ -11,7 +11,7 @@ export default function ChatList() {
   return (
     <div className='flex flex-col gap-4 p-4'>
       {chatList.map((user) =>
-        <div key={user.uuid} className="flex gap-2 bg-slate-600 rounded-xl p-2 h-[4rem] select-none">
+        <div key={user.id} className="flex gap-2 bg-slate-600 rounded-xl p-2 h-[4rem] select-none">
           <Image src={user.avatar} alt="" width={32} height={32} className='rounded-full' />
           <div className='flex flex-col'>
             <p className='font-bold'>{user.name}</p>
