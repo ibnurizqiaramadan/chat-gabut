@@ -1,13 +1,14 @@
 'use client';
 
 import { ChatInputType } from '@/helpers/types';
-import { chatStore } from '@/store';
+import { chatStore, userStore } from '@/store';
 import { sendChat } from '@/server/chatServer';
 import { useCallback } from 'react';
 import { createID } from '@/helpers/funtions';
 
 export default function ChatInput() {
   const { addChat, changePending } = chatStore((state) => state);
+  const { user } = userStore((state) => state);
 
   const sendChatToServer = useCallback(async (chatData: ChatInputType) => {
     const data = await sendChat(chatData);
@@ -29,7 +30,7 @@ export default function ChatInput() {
             const data = {
               id,
               text: value,
-              sender: id,
+              sender: user?.uuid,
               target: id,
             };
             if (value.trim() == '') return;

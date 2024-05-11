@@ -25,7 +25,7 @@ export type ChatStore = {
 }
 
 export type User = {
-  uuid: string
+  id: string
   username: string
   name: string
   avatar: string
