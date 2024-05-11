@@ -12,9 +12,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const user: User = localStorage.getItem('user') as unknown as User;
     if (user) return setUser(JSON.parse(user as unknown as string));
+    const name = prompt('Enter Name');
     const newUser: User = {
       avatar: 'https://flowbite.com/docs/images/logo.svg',
-      name: createID(),
+      name: name?.trim() == '' ? createID() : name?.trim() as string,
       uuid: createID(),
       isOnline: true,
       username: createID(),
