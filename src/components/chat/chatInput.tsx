@@ -2,7 +2,7 @@
 
 import { ChatInputType } from '@/helpers/types';
 import { chatStore, userStore } from '@/store';
-import { sendChat } from '@/server/chatServer';
+import { chatServer } from '@/server';
 import { useCallback } from 'react';
 import { createID } from '@/helpers/funtions';
 
@@ -11,7 +11,7 @@ export default function ChatInput() {
   const { user } = userStore((state) => state);
 
   const sendChatToServer = useCallback(async (chatData: ChatInputType) => {
-    const data = await sendChat(chatData);
+    const data = await chatServer.sendChat(chatData);
     changePending(data);
   }, [ changePending ]);
 
