@@ -1,7 +1,7 @@
 'use client';
 
 import { ChatInputType } from '@/helpers/types';
-import { chatStore } from '@/store/chatStore';
+import { chatStore } from '@/store';
 import { sendChat } from '@/server/chatServer';
 import { useCallback } from 'react';
 import { createID } from '@/helpers/funtions';

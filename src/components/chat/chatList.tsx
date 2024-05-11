@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { chatListStore } from '@/store/chatListStore';
+import { chatListStore } from '@/store';
 import { ChatListStore } from '@/helpers/types';
 
 export default function ChatList() {
