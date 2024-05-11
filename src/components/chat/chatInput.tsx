@@ -4,14 +4,14 @@ import { ChatInputType } from '@/helpers/types';
 import { chatStore } from '@/store/chatStore';
 import { sendChat } from '@/server/chatServer';
 import { useCallback } from 'react';
-import { nanoid } from 'nanoid';
+import { createID } from '@/helpers/funtions';
 
 export default function ChatInput() {
   const { addChat, changePending } = chatStore((state) => state);
 
   const sendChatToServer = useCallback(async (chatData: ChatInputType) => {
     const data = await sendChat(chatData);
-    changePending(data.id);
+    changePending(data);
   }, [ changePending ]);
 
   return (
@@ -22,7 +22,7 @@ export default function ChatInput() {
         style={{ height: 'var(--chat-input-height)', background: '#222'  }}
         onKeyDown={(e) => {
           if (!e.shiftKey && e.code === 'Enter') {
-            const id = nanoid();
+            const id = createID();
             e.preventDefault();
             const value = e.currentTarget.value;
             e.currentTarget.value = '';
