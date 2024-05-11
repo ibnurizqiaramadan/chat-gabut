@@ -40,3 +40,9 @@ export type ChatListStore = {
   removeChat: (uuid: string) => void
   clearChatlist: () => void
 }
+
+export type UserStore = {
+  user: User | null
+  setUser: (user: User) => void
+  clearUser: () => void
+}
