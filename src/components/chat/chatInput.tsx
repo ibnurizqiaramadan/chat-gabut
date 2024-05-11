@@ -30,7 +30,7 @@ export default function ChatInput() {
             const data = {
               id,
               text: value,
-              sender: user?.uuid,
+              sender: user?.id as string,
               target: id,
             };
             if (value.trim() == '') return;
