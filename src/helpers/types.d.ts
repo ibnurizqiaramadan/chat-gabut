@@ -36,9 +36,11 @@ export type Users = User[]
 
 export type ChatListStore = {
   chatList: Users
+  user: User | null
   createChat: (user: User) => void
   removeChat: (uuid: string) => void
   clearChatlist: () => void
+  checkUserExist: (userId: string) => void
 }
 
 export type UserStore = {
