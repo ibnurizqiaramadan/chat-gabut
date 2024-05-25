@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import React from 'react';
-import Navbar from '@/components/template/navbar';
 import Sidebar from '@/components/template/sidebar';
+import MainContent from './mainContent';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: [ 'latin' ] });
@@ -24,10 +24,9 @@ export default function RootLayout({
         <Providers>
           <main>
             <Sidebar />
-            <div className='maincontent'>
-              <Navbar />
+            <MainContent>
               {children}
-            </div>
+            </MainContent>
           </main>
         </Providers>
       </body>
