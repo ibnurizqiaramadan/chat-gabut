@@ -2,8 +2,11 @@
 
 import { Chat } from '@/helpers/types';
 import { escapeHtml } from '@/helpers/funtions';
+import { userStore } from '@/store';
 
 export default function BubbleChat(props: Chat) {
+  const { user } = userStore((state) => state);
+
   const parseText = (text: string) => {
     let result = '';
 
@@ -17,9 +20,9 @@ export default function BubbleChat(props: Chat) {
   };
 
   return (
-    <div className={`flex flex-col ${props.sender ? 'items-end justify-end' : 'items-start justify-start'} ${props.isPending ? 'opacity-50' : ''}`}>
+    <div className={`flex flex-col ${props.sender == user?.id ? 'items-end justify-end' : 'items-start justify-start'} ${props.isPending ? 'opacity-50' : ''}`}>
       <span className={`text-xs mb-1`}>
-        {new Date(props.timestamp as number).toISOString()}
+        {new Date(props.timestamp as number)?.toISOString()}
       </span>
       <div className="bg-gray-600 text-white p-3 rounded-xl">
         <span dangerouslySetInnerHTML={{ __html: parseText(props.text) }} />
