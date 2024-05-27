@@ -1,17 +1,7 @@
 import { User } from '@/helpers/types';
 import { Socket } from 'socket.io-client';
 import { create } from 'zustand';
-
-type AppStore = {
-  appState: {
-    socket: Socket | null;
-    openedChat: User | null;
-    userId: string | null;
-  };
-  setSocket: (socket: Socket) => void;
-  setOpenedChat: (chatId: User) => void;
-  setUserId: (userId: string) => void;
-};
+import { AppStore } from '@/helpers/types';
 
 export const appStore = create<AppStore>((set) => ({
   appState: {
