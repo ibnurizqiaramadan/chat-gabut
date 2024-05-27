@@ -3,6 +3,7 @@
 import { Chat } from '@/helpers/types';
 import { escapeHtml } from '@/helpers/funtions';
 import { userStore } from '@/store';
+import moment from 'moment';
 
 export default function BubbleChat(props: Chat) {
   const { user } = userStore((state) => state);
@@ -22,7 +23,7 @@ export default function BubbleChat(props: Chat) {
   return (
     <div className={`flex flex-col ${props.sender == user?.id ? 'items-end justify-end' : 'items-start justify-start'} ${props.isPending ? 'opacity-50' : ''}`}>
       <span className={`text-xs mb-1`}>
-        {new Date(props.timestamp as number)?.toISOString()}
+        {moment(props.timestamp).format('LLLL')}
       </span>
       <div className="bg-gray-600 text-white p-3 rounded-xl">
         <span dangerouslySetInnerHTML={{ __html: parseText(props.text) }} />
