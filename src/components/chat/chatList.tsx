@@ -20,7 +20,6 @@ export default function ChatList() {
     const data = chatsData.filter((data) => data.user?.id === userId)[0]?.chats ?? [];
     if (data[data.length - 1]?.timestamp == undefined) return '';
     const time = moment(data[data.length - 1]?.timestamp);
-    if (time == undefined) return '';
     const now = moment();
     if (time.isSame(now, 'day')) return time.format('HH:mm');
     if (time.isSame(moment().subtract(1, 'days'), 'day')) return 'yesterday';
