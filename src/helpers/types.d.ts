@@ -18,10 +18,14 @@ export type ChatInputType = {
 export type Chats = Chat[]
 
 export type ChatStore = {
-  chats: Chats
-  addChat: (newChat: Chat) => void
-  clearChats: () => void
-  changePending: (chatData: Chat) => void
+  chatsData: {
+    user: User
+    chats: Chats
+  }[]
+  addChat: (user: User, newChat: Chat) => void
+  clearChats: (user: User) => void
+  changePending: (user: User, chatData: Chat) => void
+  loadChats: () => void
 }
 
 export type User = {
