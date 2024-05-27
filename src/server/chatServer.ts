@@ -3,7 +3,8 @@
 import { ChatInputType, Chat, User } from '@/helpers/types';
 import db from '@/helpers/mongodb';
 import ChatModel from '@/models/chatModel';
-import { escapeHtml, createID } from '@/helpers/funtions';
+import { escapeHtml } from '@/helpers/funtions';
+import { UserModel } from '@/models';
 
 export const sendChat = (chatData: ChatInputType): Promise<Chat> => {
   return new Promise((resolve) => {
@@ -29,14 +30,17 @@ export const sendChat = (chatData: ChatInputType): Promise<Chat> => {
   });
 };
 
-export const createNewChat = (): Promise<User> => {
+export const createNewChat = (userId: string): Promise<User> => {
   return new Promise((resolve) => {
-    resolve({
-      avatar: 'https://flowbite.com/docs/images/logo.svg',
-      name: createID(),
-      id: createID(),
-      isOnline: true,
-      username: createID(),
-    });
+    const checkUser = async () => {
+      try {
+        await db();
+        const user = await UserModel.findOne({ id: userId }).lean();
+        resolve(user as unknown as User);
+      } catch (error) {
+        resolve(null as unknown as User);
+      }
+    };
+    checkUser();
   });
 };
