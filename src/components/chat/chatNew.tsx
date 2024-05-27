@@ -21,7 +21,6 @@ export default function ChatNew() {
     if (!user) return alert('User not found');
     createChat(user);
     alert(`New Chat with '${user.name}'`);
-    localStorage.setItem('chatList', JSON.stringify(chatListStore.getState().chatList));
   };
 
   return (
