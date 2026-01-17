@@ -13,7 +13,7 @@ export const chatStore = create<ChatStore>((set) => ({
       }
       return {
         chatsData: state.chatsData.map((data, index) =>
-            index === userIndex ? { ...data, chats: [ ...data.chats, newChat ] } : data
+          index === userIndex ? { ...data, chats: [ ...data.chats, newChat ] } : data,
         ),
       };
     });
@@ -22,7 +22,7 @@ export const chatStore = create<ChatStore>((set) => ({
   clearChats: (user: User) =>
     set((state) => ({
       chatsData: state.chatsData.map((data) =>
-        data.user.id === user.id ? { ...data, chats: [] } : data
+        data.user.id === user.id ? { ...data, chats: [] } : data,
       ),
     })),
   changePending: (user: User, chatData: Chat) => {
@@ -32,10 +32,10 @@ export const chatStore = create<ChatStore>((set) => ({
           {
             ...data,
             chats: data.chats.map((chat) =>
-                chat.id === chatData.id ? { ...chat, isPending: false } : chat
+              chat.id === chatData.id ? { ...chat, isPending: false } : chat,
             ),
           } :
-          data
+          data,
       ),
     }));
     localStorage.setItem('chats', JSON.stringify(chatStore.getState().chatsData));

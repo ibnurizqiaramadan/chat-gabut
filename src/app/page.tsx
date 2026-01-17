@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 'use client';
 
 import ChatContainer from '@/components/chat/chatContainer';

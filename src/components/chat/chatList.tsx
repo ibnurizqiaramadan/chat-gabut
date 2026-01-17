@@ -6,7 +6,6 @@ import { ChatListStore } from '@/helpers/types';
 import moment from 'moment';
 
 export default function ChatList() {
-  // eslint-disable-next-line no-unused-vars
   const { chatList } = chatListStore<ChatListStore>((state) => state);
   const { appState, setOpenedChat } = appStore((state) => state);
   const { chatsData } = chatStore((state) => state);
@@ -18,11 +17,11 @@ export default function ChatList() {
 
   const getLastTimeMessage = (userId: string) => {
     const data = chatsData.filter((data) => data.user?.id === userId)[0]?.chats ?? [];
-    if (data[data.length - 1]?.timestamp == undefined) return '';
+    if (data[data.length - 1]?.timestamp === undefined) { return ''; }
     const time = moment(data[data.length - 1]?.timestamp);
     const now = moment();
-    if (time.isSame(now, 'day')) return time.format('HH:mm');
-    if (time.isSame(moment().subtract(1, 'days'), 'day')) return 'yesterday';
+    if (time.isSame(now, 'day')) { return time.format('HH:mm'); }
+    if (time.isSame(moment().subtract(1, 'days'), 'day')) { return 'yesterday'; }
     return time.format('YYYY-MM-DD');
   };
 
@@ -32,7 +31,7 @@ export default function ChatList() {
       {chatList.map((user) =>
         <div
           key={user.id}
-          className={`flex gap-2 ${appState.openedChat?.id == user.id ? 'bg-slate-700 hover:bg-slate-600' : ''} rounded-xl p-2 h-[4rem] select-none cursor-pointer hover:bg-slate-800`}
+          className={`flex gap-2 ${appState.openedChat?.id === user.id ? 'bg-slate-700 hover:bg-slate-600' : ''} rounded-xl p-2 h-[4rem] select-none cursor-pointer hover:bg-slate-800`}
           onClick={() => {
             setOpenedChat(user);
           }}
@@ -46,7 +45,7 @@ export default function ChatList() {
             <p className='font-bold'>{getLastTimeMessage(user.id)}</p>
             <p className=''></p>
           </div>
-        </div>
+        </div>,
       )}
     </div>
   );

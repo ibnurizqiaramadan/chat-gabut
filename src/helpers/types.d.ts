@@ -1,5 +1,3 @@
-import { Socket } from 'socket.io-client';
-
 export type Chat = {
   id: string
   text: string
@@ -57,11 +55,9 @@ export type UserStore = {
 
 export type AppStore = {
   appState: {
-    socket: Socket | null;
     openedChat: User | null;
     userId: string | null;
   };
-  setSocket: (socket: Socket) => void;
   setOpenedChat: (chatId: User) => void;
   setUserId: (userId: string) => void;
 };

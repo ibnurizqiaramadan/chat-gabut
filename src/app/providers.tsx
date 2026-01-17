@@ -1,22 +1,18 @@
 'use client';
 
-import { NextUIProvider } from '@nextui-org/react';
-import React, { useCallback, useEffect } from 'react';
+import { HeroUIProvider } from '@heroui/react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Chat, User } from '@/helpers/types';
 import { createID } from '@/helpers/funtions';
 import { userStore, chatListStore, appStore, chatStore } from '@/store';
-import { userServer } from '@/server';
-import { io } from 'socket.io-client';
+import { Client, Account } from 'appwrite';
+import Script from 'next/script';
 
 /**
  * A React component that provides the necessary context for the application.
  *
- * The component initializes the Socket.IO connection and sets up the event
- * listeners for receiving chat messages from the server. It also retrieves the
- * user from the server based on the stored ID in local storage and sets the
- * user in the state. If the user is not found, it prompts the user to enter a
- * name and creates a new user with the provided name. The new user's ID is stored
- * in local storage and set in the state.
+ * The component initializes Appwrite real-time subscriptions and handles
+ * user authentication with Appwrite and Google OAuth.
  *
  * @param {Object} props - The props object.
  * @param {React.ReactNode} props.children - The child components to be rendered.
@@ -25,62 +21,117 @@ import { io } from 'socket.io-client';
 export function Providers({ children }: { children: React.ReactNode }) {
   const { setUser } = userStore((state) => state);
   const { addChat, loadChats } = chatStore((state) => state);
-  const { appState, setSocket, setUserId } = appStore((state) => state);
+  const { appState, setUserId } = appStore((state) => state);
   const { createChat } = chatListStore((state) => state);
 
-  const connectSocket = useCallback(() => {
-    let socket;
+  // Initialize Appwrite client
+  const client = useMemo(
+    () =>
+      new Client()
+        .setEndpoint(
+          process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT ||
+            'https://cloud.appwrite.io/v1',
+        )
+        .setProject(
+          process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || 'YOUR_PROJECT_ID',
+        ),
+    [],
+  );
 
-    if (appState.socket == null) {
-      socket = io('https://seuneu.xyrus10.com');
-      // socket = io('http://localhost:3004');
-      setSocket(socket);
-    }
+  const account = useMemo(() => new Account(client), [ client ]);
 
-    socket?.on('connect', () => {
-      console.log('Connected to socket', appStore.getState().appState.userId);
-      socket.emit('userLogin', appStore.getState().appState.userId);
+  const setupRealtime = useCallback(() => {
+    // Subscribe to chat messages in real-time using Client's subscribe method
+    const unsubscribe = client.subscribe('documents', (response) => {
+      if (
+        response.events.includes('databases.*.collections.*.documents.*.create')
+      ) {
+        const payload = response.payload as any;
+        if (payload.collectionId === 'chats') {
+          // Assuming your collection is named 'chats'
+          const chatData = {
+            id: payload.$id,
+            text: payload.text,
+            sender: payload.sender,
+            target: payload.target,
+            timestamp: payload.timestamp,
+            isRead: false,
+          } as Chat;
+
+          // Find sender user or create a basic user object
+          const sender: User = {
+            id: payload.sender,
+            name: `User ${payload.sender}`,
+            username: payload.sender,
+            avatar: 'https://i.pravatar.cc/300',
+            isOnline: false,
+          };
+
+          createChat(sender);
+          addChat(sender, chatData);
+        }
+      }
     });
 
-    socket?.on('chatReceive', (data) => {
-      createChat(data.sender as User);
-      addChat(data.sender as User, { ...data.data, isRead: false } as Chat);
-    });
-  }, [ appState.socket, setSocket, createChat, addChat ]);
+    return unsubscribe;
+  }, [ client, createChat, addChat ]);
 
-  useEffect( () => {
+  useEffect(() => {
     const getChatList = () => {
       const chatList = localStorage.getItem('chatList');
       if (chatList) {
         chatListStore.setState({ chatList: JSON.parse(chatList) });
       }
       loadChats();
-      connectSocket();
     };
+
     /**
-     * Retrieves the user from the server based on the stored ID in local storage.
-     * If the user is found, it sets the user in the state.
-     * If the user is not found, it prompts the user to enter a name and creates a new user with the provided name.
-     * The new user's ID is stored in local storage and set in the state.
+     * Handles user authentication with Appwrite and Google OAuth.
+     * If user is not authenticated, redirects to Google OAuth.
+     * If authenticated, sets user data from Appwrite account and sets up real-time.
      *
-     * @return {Promise<void>} A promise that resolves when the user is set in the state.
+     * @return {Promise<void>} A promise that resolves when the user is authenticated.
      */
-    const getUser = async (): Promise<void> => {
-      const id = localStorage.getItem('uid');
-      const user = await userServer.getUser(id as string) as User;
-      setUserId(id as string);
-      if (id) return (setUser(user), getChatList());
-      const name = prompt('Enter Name');
-      const newUser = await userServer.createNewUser(name?.trim() || createID());
-      localStorage.setItem('uid', newUser.id);
-      location.reload();
+    const handleAuth = async (): Promise<void> => {
+      try {
+        const userData = await account.get();
+        const user: User = {
+          id: userData.$id,
+          name: userData.name || 'Anonymous',
+          username: userData.email || userData.$id,
+          avatar: userData.prefs?.avatar || 'https://i.pravatar.cc/300',
+          isOnline: true,
+        };
+        setUser(user);
+        setUserId(user.id);
+        localStorage.setItem('uid', user.id);
+        getChatList();
+
+        // Setup real-time subscriptions after authentication
+        setupRealtime();
+      } catch (error) {
+        // User not authenticated, redirect to Google OAuth
+        try {
+          await account.createOAuth2Session(
+            'google' as any,
+            `${window.location.origin}/auth/callback`,
+            `${window.location.origin}/auth/failure`,
+          );
+        } catch (oauthError) {
+          console.error('OAuth error:', oauthError);
+        }
+      }
     };
-    getUser();
-  }, [ appState.socket, connectSocket, loadChats, setUser, setUserId ]);
+    handleAuth();
+  }, [ account, setupRealtime, loadChats, setUser, setUserId ]);
 
   return (
-    <NextUIProvider>
-      {children}
-    </NextUIProvider>
+    <>
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="afterInteractive"
+      />
+      <HeroUIProvider>{children}</HeroUIProvider>
+    </>
   );
 }

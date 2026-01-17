@@ -6,7 +6,7 @@ export const chatListStore = create<ChatListStore>((set) => ({
   user: null as User | null,
   createChat: (user: User) => {
     const userExist = chatListStore.getState().chatList.find((chat) => chat.id === user.id);
-    if (userExist) return;
+    if (userExist) { return; }
     set((state) => ({
       chatList: [
         ...state.chatList,

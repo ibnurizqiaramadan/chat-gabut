@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { nextui } from '@nextui-org/react';
+import { heroui } from '@heroui/react';
 
 const config: Config = {
   content: [
@@ -16,8 +16,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [ nextui({
-    prefix: 'nextui', // prefix for themes variables
+  plugins: [ heroui({
+    prefix: 'heroui', // prefix for themes variables
     addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
     defaultTheme: 'dark', // default theme from the themes object
     defaultExtendTheme: 'dark', // default theme to extend on custom themes

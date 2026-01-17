@@ -1,9 +1,9 @@
 import { customAlphabet } from 'nanoid';
 
-const getCookie = (name: string)  =>{
+const getCookie = (name: string)  => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(';').shift();
+  if (parts.length === 2) { return parts.pop()?.split(';').shift(); }
   return null;
 };
 
@@ -45,9 +45,9 @@ const setCookie = (name: string, value: string, options: {expires?: Date | numbe
 
 const escapeHtml = (text: string) => {
   return text
-      .replace(/&/g, '&amp;')  // Escape '&' to '&amp;'
-      .replace(/</g, '&lt;')   // Escape '<' to '&lt;'
-      .replace(/>/g, '&gt;');  // Escape '>' to '&gt;'
+    .replace(/&/g, '&amp;')  // Escape '&' to '&amp;'
+    .replace(/</g, '&lt;')   // Escape '<' to '&lt;'
+    .replace(/>/g, '&gt;');  // Escape '>' to '&gt;'
 };
 
 const createID = () => {
